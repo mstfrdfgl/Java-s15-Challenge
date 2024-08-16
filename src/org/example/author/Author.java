@@ -18,7 +18,6 @@ public class Author extends Person implements Observer {
 
     public void update(){
         books.clear();
-//        books.add(Library.getInstance().getBooks().keySet());
         for(Book book: Library.getInstance().getBooks().keySet()){
             if(book.getAuthor().equals(this)){
                 books.add(book);

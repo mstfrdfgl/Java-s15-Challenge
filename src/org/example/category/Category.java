@@ -3,7 +3,6 @@ package org.example.category;
 import org.example.interfaces.Observer;
 import org.example.library.Book;
 import org.example.library.Library;
-
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -18,14 +17,15 @@ public abstract class Category implements Observer {
         Library.getInstance().addObservers(this);
     }
 
-    public void update(){
+    public void update() {
         books.clear();
-        for(Book book: Library.getInstance().getBooks().keySet()){
-            if(book.getCategory().equals(this)){
+        for (Book book : Library.getInstance().getBooks().keySet()) {
+            if (book.getCategory().equals(this)) {
                 books.add(book);
             }
         }
     }
+
     public String getName() {
         return name;
     }
@@ -38,7 +38,7 @@ public abstract class Category implements Observer {
         return books;
     }
 
-    public void removeBook(Book book){
+    public void removeBook(Book book) {
         books.remove(book);
     }
 
@@ -52,7 +52,7 @@ public abstract class Category implements Observer {
                 return;
             }
         }
-        int count=book.getStatus().get(true);
+        int count = book.getQuantity();
         if (count <= 0) {
             return;
         }

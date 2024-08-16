@@ -16,18 +16,19 @@ public class Book {
     private String name;
     private Category category;
     private double price;
-    private Map<Boolean, Integer> status = new HashMap<>();
+//    private Map<Boolean, Integer> status = new HashMap<>();
+    private int quantity;
     private String edition;
     private LocalDate dateOfPurchase;
     private LocalDate dateOfBorrowing;
 
-    public Book(int bookID, Author author, String name, Category category, int initialCount, String edition, LocalDate dateOfPurchase) {
+    public Book(int bookID, Author author, String name, Category category,int quantity, String edition, LocalDate dateOfPurchase) {
         this.bookID = bookID;
         this.author = author;
         this.name = name;
         this.category = category;
         this.price = category.getPrice();
-        this.status.put(true, initialCount);
+        this.quantity=quantity;
         this.edition = edition;
         this.dateOfPurchase = dateOfPurchase;
 
@@ -71,10 +72,13 @@ public class Book {
         return dateOfBorrowing;
     }
 
-    public Map<Boolean, Integer> getStatus() {
-        return status;
+    public int getQuantity() {
+        return quantity;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
 
     @Override
     public String toString() {
@@ -84,7 +88,7 @@ public class Book {
         sb.append("Title: ").append(name).append("\n");
         sb.append("Category: ").append(category.getName()).append("\n");
         sb.append("Price: $").append(String.format("%.2f", price)).append("\n");
-        sb.append("Available Copies: ").append(status.get(true)).append("\n");
+        sb.append("Available Copies: ").append(quantity).append("\n");
         sb.append("Edition: ").append(edition).append("\n");
         sb.append("Date of Purchase: ").append(dateOfPurchase).append("\n");
         return sb.toString();

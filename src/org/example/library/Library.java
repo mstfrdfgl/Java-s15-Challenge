@@ -11,7 +11,7 @@ public class Library {
     private static Library instance;
     private Map<Book, Integer> books;
     private Map<Book, Integer> readers;
-    private List<Observer> observers=new ArrayList<>();
+    private List<Observer> observers = new ArrayList<>();//library classındaki değişiklikleri gözlemlemek için gelen gözlemcilerin tutulduğu liste
 
     private Library() {
         books = new HashMap<>();
@@ -24,14 +24,17 @@ public class Library {
         }
         return instance;
     }
-    public void addObservers(Observer observer){
+
+    public void addObservers(Observer observer) {//library classına gözlemci gönderecek classlar bu metod ile gönderir
         observers.add(observer);
     }
-    public void removeObservers(Observer observer){
+
+    public void removeObservers(Observer observer) {
         observers.remove(observer);
     }
-    public void notifyObservers(){
-        for (Observer observer:observers){
+
+    public void notifyObservers() {//bu metod tetiklendiğinde library classında gözlemci bulunduran classlar uyarılır ve gerekli güncellemeler yapılır
+        for (Observer observer : observers) {
             observer.update();
         }
     }
@@ -47,6 +50,7 @@ public class Library {
     public Set<Book> getBooksByCategory(Category category) {
         return category.getBooks();
     }
+
     public void addBook(Book book) {
         for (Book existingBook : books.keySet()) {
             if (existingBook.getName().equalsIgnoreCase(book.getName())) {
@@ -58,13 +62,13 @@ public class Library {
                 return;
             }
         }
-        int count=book.getStatus().get(true);
+        int count = book.getQuantity();
         if (count <= 0) {
             System.out.println("En az 1 adet kitap eklemelisiniz.");
             return;
         }
         books.put(book, count);
-        book.getStatus().put(true, count);
+        book.setQuantity(count);
         notifyObservers();
     }
 
