@@ -1,9 +1,8 @@
-package org.example.author;
+package org.example.person;
 
 import org.example.interfaces.Observer;
 import org.example.library.Book;
 import org.example.library.Library;
-import org.example.person.Person;
 
 import java.util.HashSet;
 import java.util.Set;

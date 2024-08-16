@@ -1,6 +1,5 @@
 package org.example.library;
 
-import org.example.author.Author;
 import org.example.category.Category;
 import org.example.interfaces.Observer;
 

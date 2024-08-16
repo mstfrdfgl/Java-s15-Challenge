@@ -1,11 +1,10 @@
-import org.example.author.Author;
+import org.example.person.Author;
 import org.example.category.Category;
 import org.example.category.Child;
 import org.example.category.MiddleEarth;
 import org.example.category.ScienceFiction;
 import org.example.library.Book;
 import org.example.library.Library;
-import org.example.person.Person;
 import org.example.person.Reader;
 
 import java.time.LocalDate;
@@ -20,12 +19,12 @@ public class Main {
         Author asimov = new Author("Isaac Asimov");
 
         Category child = new Child();
+
+        Reader reader = new Reader("mustafa",10);
+        Reader reader1 = new Reader("hilal",25);
+        Reader reader2 = new Reader("berkay",65);
         Category middleEarth = new MiddleEarth();
         Category scienceFiction = new ScienceFiction();
-
-        Reader reader=new Reader("mustafa");
-        Reader reader1=new Reader("hilal");
-        Reader reader2=new Reader("berkay");
 
         Book yuzuk = new Book(2, tolkien, "Yüzüklerin Efendisi", middleEarth, 2, "Third", LocalDate.of(2022, 6, 25));
         Book silmarillion = new Book(10, tolkien, "Silmarillion", middleEarth, 3, "Second", LocalDate.of(2023, 8, 29));
@@ -39,10 +38,15 @@ public class Main {
         Book sonsuz = new Book(101, asimov, "Sonsuzluğun Sonu", scienceFiction, 2, "Abstract", LocalDate.of(2019, 4, 19));
 
         reader.borrowBook(yuzuk);
-        reader.borrowBook(sonsuz);
+        reader1.borrowBook(yuzuk);
+        reader2.borrowBook(yuzuk);
+        reader2.borrowBook(silmarillion);
+        reader2.borrowBook(harry);
+        reader2.borrowBook(vakif);
+        System.out.println(reader2.getActiveInvoices());
+        reader2.returnBook(yuzuk);
+        System.out.println(reader2.getPaidInvoices());
 
-
-        System.out.println(reader.getBooks());
 
     }
 }

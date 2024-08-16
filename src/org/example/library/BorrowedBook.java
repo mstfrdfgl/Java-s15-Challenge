@@ -1,6 +1,6 @@
 package org.example.library;
 
-import org.example.author.Author;
+import org.example.person.Author;
 import org.example.category.Category;
 
 import java.util.Objects;

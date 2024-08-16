@@ -15,8 +15,8 @@ public abstract class Person {
 
     @Override
     public String toString() {
-        return "{" +
-                "name='" + name + '\'' +
-                '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("Name: ").append(name);
+        return sb.toString();
     }
 }

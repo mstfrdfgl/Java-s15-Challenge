@@ -1,14 +1,10 @@
 package org.example.library;
 
-import org.example.author.Author;
+import org.example.person.Author;
 import org.example.category.Category;
-import org.example.enums.Cat;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
 
 public class Book {
     private int bookID;
@@ -20,7 +16,6 @@ public class Book {
     private int quantity;
     private String edition;
     private LocalDate dateOfPurchase;
-    private LocalDate dateOfBorrowing;
 
     public Book(int bookID, Author author, String name, Category category,int quantity, String edition, LocalDate dateOfPurchase) {
         this.bookID = bookID;
@@ -68,9 +63,7 @@ public class Book {
         return dateOfPurchase;
     }
 
-    public LocalDate getDateOfBorrowing() {
-        return dateOfBorrowing;
-    }
+
 
     public int getQuantity() {
         return quantity;
