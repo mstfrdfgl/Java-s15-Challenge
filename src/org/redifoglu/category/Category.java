@@ -1,0 +1,85 @@
+package org.redifoglu.category;
+
+import org.redifoglu.interfaces.Observer;
+import org.redifoglu.library.Book;
+import org.redifoglu.library.Library;
+
+import java.util.*;
+import java.util.stream.Collectors;
+
+public abstract class Category implements Observer {
+    private final String name;
+    private final double price;
+    private Map<String, Set<Book>> books = new LinkedHashMap<>();
+
+    public Category(double price, String name) {
+        this.price = price;
+        this.name = name;
+        Library.getInstance().addObservers(this);
+        books.put(name, new LinkedHashSet<>());
+//        System.out.println(name + " Kategorisi eklendi.");
+    }
+
+    public void update() {
+        Set<Book> books = this.books.get(name);
+        books.clear();
+        for (Book book : Library.getInstance().getBooks().keySet()) {
+            if (book.getCategory().equals(this)) {
+                books.add(book);
+            }
+        }
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public Set<Book> getBooks() {
+        return books.get(name);
+    }
+
+    public void removeBook(Book book) {
+        books.get(name).remove(book);
+    }
+
+//    public void addBook(Book book) {
+//        Set<Book> books = this.books.get(name);
+//        for (Book existingBook : books) {
+//            if (existingBook.getName().equalsIgnoreCase(book.getName())) {
+//                return;
+//            }
+//            if (existingBook.getBookID() == book.getBookID()) {
+//                return;
+//            }
+//        }
+//        if (book.getQuantity() <= 0) {
+//            return;
+//        }
+//        books.add(book);
+//    }
+
+    @Override
+    public String toString() {
+        Set<Book> books = this.books.get(name);
+        return name + " Kategorisinde " + books.size() + " adet kitap mevcut. Bu kitaplar: " + books.stream()
+                .map(Book::getName)
+                .collect(Collectors.joining(", "));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Category category = (Category) o;
+        return Objects.equals(name, category.name) && Objects.equals(books, category.books);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, books);
+    }
+}
