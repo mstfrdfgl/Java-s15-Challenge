@@ -23,22 +23,19 @@ public class Main {
 
         Reader mustafa = new Reader("mustafa", 10);
         Reader hilal = new Reader("hilal", 25);
-        Reader berkay = new Reader("berkay", 65);
+        Reader berkay = new Reader("berkay", 650);
         System.out.println("**************************************************************");
-        Book yuzuk = new Book(1, tolkien, "Yüzüklerin Efendisi", middleEarth, 2, "Third", LocalDate.of(2022, 6, 25));
-        Book silmarillion = new Book(2, tolkien, "Silmarillion", middleEarth, 3, "Second", LocalDate.of(2023, 8, 29));
-        Book hobbit = new Book(3, tolkien, "Hobbit", middleEarth, 1, "First", LocalDate.of(2019, 4, 21));
-        Book harry = new Book(10, rowling, "Harry Potter ve Felsefe Taşı", child, 5, "First edition", LocalDate.of(2024, 8, 10));
-        Book harry2 = new Book(11, rowling, "Harry Potter ve Sırlar Odası", child, 10, "First edition", LocalDate.of(2021, 10, 2));
-        Book vakif = new Book(100, asimov, "Vakıf Kurulurken", scienceFiction, 1, "Special", LocalDate.of(2010, 6, 6));
+        Book yuzuk = new Book(1, tolkien, "Yüzüklerin Efendisi", middleEarth, 2, "OOP", LocalDate.of(2022, 6, 25));
+        Book silmarillion = new Book(2, tolkien, "Silmarillion", middleEarth, 3, "Singleton", LocalDate.of(2023, 8, 29));
+        Book hobbit = new Book(3, tolkien, "Hobbit", middleEarth, 1, "Observer", LocalDate.of(2019, 4, 21));
+        Book harry = new Book(10, rowling, "Harry Potter ve Felsefe Taşı", child, 5, "Overloading", LocalDate.of(2024, 8, 10));
+        Book harry2 = new Book(11, rowling, "Harry Potter ve Sırlar Odası", child, 10, "Overriding", LocalDate.of(2021, 10, 2));
+        Book vakif = new Book(100, asimov, "Vakıf Kurulurken", scienceFiction, 1, "Interface", LocalDate.of(2010, 6, 6));
         Book sonsuz = new Book(101, asimov, "Sonsuzluğun Sonu", scienceFiction, 2, "Abstract", LocalDate.of(2019, 4, 19));
         System.out.println("**************************************************************");
+        berkay.borrowBook(hobbit);
 
-
-        hilal.borrowBook(sonsuz);
-        library.removeBook(sonsuz);
-        System.out.println(library);
-
+        System.out.println(yuzuk.getQuantity());
 
     }
 }

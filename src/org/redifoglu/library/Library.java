@@ -2,6 +2,7 @@ package org.redifoglu.library;
 
 import org.redifoglu.category.Category;
 import org.redifoglu.interfaces.Observer;
+import org.redifoglu.person.Author;
 import org.redifoglu.person.Reader;
 
 import java.util.*;
@@ -89,7 +90,20 @@ public class Library {
             notifyObservers();
             System.out.println(book.getName() + " kütüphaneden kaldırıldı.");
         }
+    }
 
+    public void removeBook(Category category) {
+        List<Book> booksToRemove = new ArrayList<>(category.getBooks());
+        for (Book book : booksToRemove) {
+            removeBook(book);
+        }
+    }
+
+    public void removeBook(Author author) {
+        List<Book> booksToRemove = new ArrayList<>(author.getBooks());
+        for (Book book : booksToRemove) {
+            removeBook(book);
+        }
     }
 
     public void addReader(Reader reader) {

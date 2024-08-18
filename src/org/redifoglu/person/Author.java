@@ -6,6 +6,7 @@ import org.redifoglu.library.Library;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public class Author extends Person implements Observer {
     Set<Book> books = new HashSet<>();
@@ -35,10 +36,16 @@ public class Author extends Person implements Observer {
 
     @Override
     public String toString() {
-        return "Author{" +
-                "name=" + getName() +
-                ", booksCount=" + books.size() +
-                "} ";
+        StringBuilder sb = new StringBuilder();
+        sb.append(getName()).append(" tarafından yazılmış ").append(books.size()).append(" adet kitap mevcut.");
+        if (!books.isEmpty()) {
+            sb.append(" Bu kitaplar: ");
+            sb.append(books.stream()
+                    .map(Book::getName)
+                    .collect(Collectors.joining(", ")));
+        }
+        return sb.toString();
     }
+
 
 }

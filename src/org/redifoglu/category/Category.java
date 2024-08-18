@@ -65,10 +65,17 @@ public abstract class Category implements Observer {
     @Override
     public String toString() {
         Set<Book> books = this.books.get(name);
-        return name + " Kategorisinde " + books.size() + " adet kitap mevcut. Bu kitaplar: " + books.stream()
-                .map(Book::getName)
-                .collect(Collectors.joining(", "));
+        StringBuilder sb = new StringBuilder();
+        sb.append(name).append(" kategorisinde ").append(books.size()).append(" adet kitap mevcut.");
+        if (!books.isEmpty()) {
+            sb.append(" Bu kitaplar: ");
+            sb.append(books.stream()
+                    .map(Book::getName)
+                    .collect(Collectors.joining(", ")));
+        }
+        return sb.toString();
     }
+
 
     @Override
     public boolean equals(Object o) {
