@@ -5,19 +5,23 @@ import org.redifoglu.interfaces.Observer;
 import org.redifoglu.person.Author;
 import org.redifoglu.person.Reader;
 
+import java.time.LocalDate;
 import java.util.*;
 
 public class Library {
 
     private static Library instance;
-    private Map<Book, Integer> books;
+    private Map<Integer, Book> books;
+    private Map<Integer, Author> authors;
+    private Map<Integer, Category> categories;
     private Map<Reader, Set<BorrowedBook>> readers;
     private List<Observer> observers = new ArrayList<>();//library classındaki değişiklikleri gözlemlemek için gelen gözlemcilerin tutulduğu liste
 
     private Library() {
         books = new HashMap<>();
         readers = new HashMap<>();
-        System.out.println();
+        authors = new HashMap<>();
+        categories = new HashMap<>();
     }
 
     public static Library getInstance() {
@@ -41,7 +45,7 @@ public class Library {
         }
     }
 
-    public Map<Book, Integer> getBooks() {
+    public Map<Integer, Book> getBooks() {
         return books;
     }
 
@@ -49,30 +53,99 @@ public class Library {
         return readers;
     }
 
-    //    public Set<Book> getBooksByCategory(Category category) {
-//        return category.getBooks();
+    //    public void addBook(Book book) {
+//        if (books.containsKey(book.getBookID())) {
+//            System.out.println("Bu ID daha önce başka bir kitapta kullanılmış.".toUpperCase());
+//            return;
+//        }
+//        if (books.values().stream().anyMatch(b -> b.getName().equalsIgnoreCase(book.getName()) && b.getEdition().equalsIgnoreCase(book.getEdition()))) {
+//            System.out.println("Bu kitap zaten mevcut.".toUpperCase());
+//            return;
+//        }
+//
+//        int count = book.getQuantity();
+//        if (count <= 0) {
+//            System.out.println("En az 1 adet kitap eklemelisiniz.");
+//            return;
+//        }
+//        books.put(book.getBookID(), book);
+//        book.setQuantity(count);
+//        notifyObservers();
+//        System.out.println(book.getName() + " kütüphaneye eklendi.");
 //    }
-
-    public void addBook(Book book) {
-        for (Book existingBook : books.keySet()) {
-            if (existingBook.getName().equalsIgnoreCase(book.getName())) {
-                System.out.println("Bu kitap zaten mevcut.".toUpperCase());
-                return;
+    public void addBook(Book... booksToAdd) {
+        for (Book book : booksToAdd) {
+            if (books.values().stream().anyMatch(b -> b.getName().equalsIgnoreCase(book.getName()) && b.getEdition().equalsIgnoreCase(book.getEdition()))) {
+                System.out.println("Kitap: " + book.getName() + " zaten mevcut.".toUpperCase());
+                continue;
             }
-            if (existingBook.getBookID() == book.getBookID()) {
-                System.out.println("Bu ID daha önce başka bir kitapta kullanılmış.".toUpperCase());
-                return;
+            if (books.containsKey(book.getBookID())) {
+                System.out.println("ID: " + book.getBookID() + " daha önce başka bir kitapta kullanılmış.".toUpperCase());
+                continue;
+            }
+
+            int count = book.getQuantity();
+            if (count <= 0) {
+                System.out.println("Kitap: " + book.getName() + " için en az 1 adet kitap eklemelisiniz.");
+                continue;
+            }
+            books.put(book.getBookID(), book);
+            book.setQuantity(count);
+            System.out.println(book.getName() + " kütüphaneye eklendi.");
+        }
+        notifyObservers();
+    }
+
+
+    public void updateBook(int bookID, String newName, Author newAuthor, Category newCategory, int newQuantity, String newEdition, LocalDate newDateOfPurchase) {
+        Book bookToUpdate = books.get(bookID);
+        boolean isBookBorrowed = false;
+        for (Set<BorrowedBook> borrowedBooks : readers.values()) {
+            if (borrowedBooks.contains(new BorrowedBook(bookToUpdate.getName(), bookToUpdate.getAuthor(), bookToUpdate.getCategory(), bookToUpdate.getEdition()))) {
+                isBookBorrowed = true;
+                break;
             }
         }
-        int count = book.getQuantity();
-        if (count <= 0) {
-            System.out.println("En az 1 adet kitap eklemelisiniz.");
+
+        if (bookToUpdate != null) {
+            if (isBookBorrowed) {
+                System.out.println("Bu kitap şuanda ödünç alınmış durumda olduğu için güncellenemez.");
+            } else {
+                if (books.values().stream().filter(b -> b.getBookID() != bookID)
+                        .noneMatch(b -> b.getName().equalsIgnoreCase(newName) ||
+                                b.getEdition().equalsIgnoreCase(newEdition))) {
+                    bookToUpdate.setName(newName);
+                    bookToUpdate.setAuthor(newAuthor);
+                    bookToUpdate.setCategory(newCategory);
+                    bookToUpdate.setQuantity(newQuantity);
+                    bookToUpdate.setEdition(newEdition);
+                    bookToUpdate.setDateOfPurchase(newDateOfPurchase);
+                    System.out.println(bookID + " ID numarasına sahip kitap başarıyla güncellendi.");
+                } else {
+                    System.out.println("Güncellemek istediğiniz kitap zaten bulunuyor.");
+                }
+            }
+        } else {
+            System.out.println("Güncellenecek kitap bulunamadı");
+        }
+    }
+
+    public void addAuthor(Author author) {
+        if (authors.containsKey(author.getAuthorID())) {
+            System.out.println("Bu ID daha önce başka bir yazarda kullanılmış.".toUpperCase());
             return;
         }
-        books.put(book, count);
-        book.setQuantity(count);
-        notifyObservers();
-        System.out.println(book.getName() + " kütüphaneye eklendi.");
+        authors.put(author.getAuthorID(), author);
+        System.out.println(author.getName() + " Yazarlara eklendi.");
+    }
+
+    public void addCategories(Category category) {
+        if (categories.containsKey(category.getCategoryID())) {
+            System.out.println("Bu ID daha önce başka bir kategoride kullanılmış");
+            return;
+        }
+        categories.put(category.getCategoryID(), category);
+        System.out.println(category.getName() + " Kategorilere eklendi.");
     }
 
     public void removeBook(Book book) {
@@ -83,17 +156,25 @@ public class Library {
                 break;
             }
         }
-        if (isBookBorrowed) {
-            System.out.println("Bu kitap şuanda ödünç alınmış durumda olduğu için silinemez.");
+        if (!books.containsValue(book)) {
+            System.out.println("Bu kitap zaten kütüphanemizde bulunmamakta.");
         } else {
-            books.remove(book);
-            notifyObservers();
-            System.out.println(book.getName() + " kütüphaneden kaldırıldı.");
+            if (isBookBorrowed) {
+                System.out.println("Bu kitap şuanda ödünç alınmış durumda olduğu için silinemez.");
+            } else {
+                books.remove(book.getBookID());
+                notifyObservers();
+                System.out.println(book.getName() + " kütüphaneden kaldırıldı.");
+            }
         }
+
     }
 
     public void removeBook(Category category) {
         List<Book> booksToRemove = new ArrayList<>(category.getBooks());
+        if (category.getBooks().isEmpty()) {
+            System.out.println("Bu kategoride zaten kitap yok");
+        }
         for (Book book : booksToRemove) {
             removeBook(book);
         }
@@ -101,6 +182,9 @@ public class Library {
 
     public void removeBook(Author author) {
         List<Book> booksToRemove = new ArrayList<>(author.getBooks());
+        if (author.getBooks().isEmpty()) {
+            System.out.println("Bu yazarın zaten kitabı yok");
+        }
         for (Book book : booksToRemove) {
             removeBook(book);
         }
@@ -115,13 +199,12 @@ public class Library {
         }
     }
 
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
         sb.append("---").append(books.size()).append(" Library Books---\n");
-        for (Map.Entry<Book, Integer> entry : books.entrySet()) {
-            sb.append(entry.getKey()).append("\n");
+        for (Book book : books.values()) {
+            sb.append(book).append("\n");
         }
         sb.append("Readers:\n");
         sb.append(readers);

@@ -4,7 +4,6 @@ import org.redifoglu.person.Author;
 import org.redifoglu.category.Category;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Objects;
 
 public class Book {
@@ -28,8 +27,9 @@ public class Book {
         this.dateOfPurchase = dateOfPurchase;
 
 //        this.author.getBooks().add(this);//kitap nesnesi oluşturulduğunda otomatik olarak seçilen yazarın kitaplarına eklenir.
-        Library library = Library.getInstance();
-        library.addBook(this);//Aynı şekilde kitap nesnesi oluşturulduğunda otomatik olarak kitap kütüphaneye eklenir.
+//        Library library = Library.getInstance();
+//        library.addBook(this);
+        //Aynı şekilde kitap nesnesi oluşturulduğunda otomatik olarak kitap kütüphaneye eklenir.
 //        category.addBook(this);
 
     }
@@ -72,9 +72,33 @@ public class Book {
         this.quantity = quantity;
     }
 
+    protected void setAuthor(Author author) {
+        this.author = author;
+    }
+
+    protected void setName(String name) {
+        this.name = name;
+    }
+
+    protected void setCategory(Category category) {
+        this.category = category;
+    }
+
+    protected void setPrice(double price) {
+        this.price = price;
+    }
+
+    protected void setEdition(String edition) {
+        this.edition = edition;
+    }
+
+    protected void setDateOfPurchase(LocalDate dateOfPurchase) {
+        this.dateOfPurchase = dateOfPurchase;
+    }
+
     @Override
     public String toString() {
-        if (Library.getInstance().getBooks().containsKey(this)) {
+        if (Library.getInstance().getBooks().containsValue(this)) {
             StringBuilder sb = new StringBuilder();
             sb.append("Book ID: ").append(bookID).append("\n");
             sb.append("Author: ").append(author.getName()).append("\n");
@@ -91,16 +115,30 @@ public class Book {
     }
 
 
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Book book = (Book) o;
+//        return Objects.equals(name, book.name);
+//    }
+
+
+//    @Override
+//    public int hashCode() {
+//        return Objects.hashCode(name);
+//    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(name, book.name);
+        return Objects.equals(name, book.name) && Objects.equals(edition, book.edition);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(name);
+        return Objects.hash(name, edition);
     }
 }

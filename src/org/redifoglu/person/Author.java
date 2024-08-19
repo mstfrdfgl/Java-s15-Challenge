@@ -5,21 +5,28 @@ import org.redifoglu.library.Book;
 import org.redifoglu.library.Library;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 public class Author extends Person implements Observer {
+    private int authorID;
     Set<Book> books = new HashSet<>();
 
-    public Author(String name) {
+    public Author(int authorID, String name) {
         super(name);
+        this.authorID=authorID;
         Library.getInstance().addObservers(this);
     }
 
-    public void update(){
+    public int getAuthorID() {
+        return authorID;
+    }
+
+    public void update() {
         books.clear();
-        for(Book book: Library.getInstance().getBooks().keySet()){
-            if(book.getAuthor().equals(this)){
+        for (Book book : Library.getInstance().getBooks().values()) {
+            if (book.getAuthor().equals(this)) {
                 books.add(book);
             }
         }
@@ -32,6 +39,19 @@ public class Author extends Person implements Observer {
     @Override
     public void whoYouAre() {
         System.out.println(getName());
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Author author = (Author) o;
+        return authorID == author.authorID;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(authorID);
     }
 
     @Override

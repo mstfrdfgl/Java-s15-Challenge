@@ -9,16 +9,22 @@ import org.redifoglu.library.Library;
 import java.util.*;
 
 public class Reader extends Person {
-    private Set<BorrowedBook> borrowedBooks = new LinkedHashSet<>();
+    private int readerID;
     private double balance;
+    private Set<BorrowedBook> borrowedBooks = new LinkedHashSet<>();
     private List<ActiveInvoice> activeInvoices = new LinkedList<>();
     private List<PaidInvoice> paidInvoices = new LinkedList<>();
 
-    public Reader(String name, double balance) {
+    public Reader(int readerID, String name, double balance) {
         super(name);
+        this.readerID = readerID;
         this.balance = balance;
-        Library library = Library.getInstance();
-        library.addReader(this);
+//        Library library = Library.getInstance();
+//        library.addReader(this);
+    }
+
+    public int getReaderID() {
+        return readerID;
     }
 
     public Set<BorrowedBook> getBorrowedBooks() {
@@ -26,6 +32,7 @@ public class Reader extends Person {
     }
 
     public double getBalance() {
+
         return balance;
     }
 
@@ -51,7 +58,7 @@ public class Reader extends Person {
                 System.out.println(book.getName() + " kitabını zaten ödünç almışsınız. Bir kez daha alamazsınız.");
             } else if (book.getQuantity() == 0) {
                 System.out.println(getName() + "'nın ödünç almak istediği kitap kütüphanemizde kalmadı.");
-            } else if (!Library.getInstance().getBooks().containsKey(book)) {
+            } else if (!Library.getInstance().getBooks().containsKey(book.getBookID())) {
                 System.out.println("Ödünç almak istediğiniz kitap kütüphanemizde bulunmamaktadır.");
             } else if (book.getQuantity() > 0) {
                 if (balance >= book.getPrice()) {
@@ -65,7 +72,7 @@ public class Reader extends Person {
                         Library.getInstance().getReaders().put(this, new HashSet<>());
                     }
                     Library.getInstance().getReaders().get(this).add(new BorrowedBook(book.getName(), book.getAuthor(), book.getCategory(), book.getEdition()));
-                    System.out.println(getName() + ", " + book.getName() + " Kitabını ₺" + book.getPrice() + " karşılığında ödünç aldı. Yeni bakiye ₺" + String.format("%.2f", balance));
+                    System.out.println(getName() + ", " + book.getName() + " Kitabını ₺" + book.getPrice() + " karşılığında ödünç aldı, yeni miktar " + book.getQuantity() + ". Yeni bakiye ₺" + String.format("%.2f", balance));
                 } else {
                     System.out.println("Yetersiz bakiye. " + getName() + " maalesef ₺" + String.format("%.2f", book.getPrice() - balance) + " tutarında eksiğin var.");
                 }
@@ -85,12 +92,14 @@ public class Reader extends Person {
                 activeInvoices.removeIf(invoice -> invoice.getBook().equals(book));
                 PaidInvoice paidInvoice = new PaidInvoice(this, book);
                 this.paidInvoices.add(paidInvoice);
-                System.out.println(getName() + ", " + book.getName() + " kitabını iade etti. Teşekkür ederiz. Yeni bakiye ₺" + String.format("%.2f", balance));
+                System.out.println(getName() + ", " + book.getName() + " kitabını iade etti,yeni miktar " + book.getQuantity()+ ". Teşekkür ederiz. Yeni bakiye ₺" + String.format("%.2f", balance));
             } else {
                 System.out.println(getName() + " " + book.getName() + " kitabını görünüşe göre ödünç almamış.");
             }
         }
     }
+
+
 
     @Override
     public String toString() {
@@ -99,10 +108,10 @@ public class Reader extends Person {
         if (borrowedBooks.isEmpty()) {
             sb.append(" henüz kitap ödünç almamış.");
         } else {
-            sb.append("'nın ödünç aldığı kitaplar. ");
-            for (BorrowedBook borrowedBook : borrowedBooks) {
-                sb.append(borrowedBook.getName()).append(",");
-            }
+            sb.append(" ");
+//            for (BorrowedBook borrowedBook : borrowedBooks) {
+//                sb.append(borrowedBook.getName()).append(",");
+//            }
         }
         return sb.toString();
     }

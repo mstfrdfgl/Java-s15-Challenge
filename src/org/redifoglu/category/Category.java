@@ -8,11 +8,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class Category implements Observer {
+    private int categoryID;
     private final String name;
     private final double price;
     private Map<String, Set<Book>> books = new LinkedHashMap<>();
 
-    public Category(double price, String name) {
+    public Category(int categoryID,double price, String name) {
+        this.categoryID=categoryID;
         this.price = price;
         this.name = name;
         Library.getInstance().addObservers(this);
@@ -23,11 +25,15 @@ public abstract class Category implements Observer {
     public void update() {
         Set<Book> books = this.books.get(name);
         books.clear();
-        for (Book book : Library.getInstance().getBooks().keySet()) {
+        for (Book book : Library.getInstance().getBooks().values()) {
             if (book.getCategory().equals(this)) {
                 books.add(book);
             }
         }
+    }
+
+    public int getCategoryID() {
+        return categoryID;
     }
 
     public String getName() {
