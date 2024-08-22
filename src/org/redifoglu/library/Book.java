@@ -63,7 +63,6 @@ public class Book {
         return dateOfPurchase;
     }
 
-
     public int getQuantity() {
         return quantity;
     }

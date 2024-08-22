@@ -11,8 +11,6 @@ public abstract class Person {
         return name;
     }
 
-    public abstract void whoYouAre();
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();

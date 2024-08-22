@@ -36,10 +36,6 @@ public class Author extends Person implements Observer {
         return books;
     }
 
-    @Override
-    public void whoYouAre() {
-        System.out.println(getName());
-    }
 
     @Override
     public boolean equals(Object o) {

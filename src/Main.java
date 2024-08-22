@@ -5,6 +5,8 @@ import org.redifoglu.category.MiddleEarth;
 import org.redifoglu.category.ScienceFiction;
 import org.redifoglu.library.Book;
 import org.redifoglu.library.Library;
+import org.redifoglu.person.Librarian;
+import org.redifoglu.person.Person;
 import org.redifoglu.person.Reader;
 
 import java.time.LocalDate;
@@ -13,8 +15,10 @@ public class Main {
     public static void main(String[] args) {
         //singleton patterne göre bir sınıftan tek bir instance oluşturduk.
         Library library = Library.getInstance();
-
+        Librarian librarian = new Librarian(1, "Mrs.Librarian");
+        System.out.println(librarian);
         //Author sınıfına yeni yazarlar ekledik
+        System.out.println("*****************************YAZAR EKLENDİ*********************************");
         Author rowling = new Author(1, "J.K. Rowling");
         Author tolkien = new Author(2, "J.R.R. Tolkien");
         Author asimov = new Author(3, "Isaac Asimov");
@@ -23,27 +27,27 @@ public class Main {
         library.addAuthor(tolkien);
         library.addAuthor(asimov);
         library.addAuthor(martin);
-        System.out.println("**************************************************************");
 
         //Category sınıfına yeni kategoriler ekledik
+        System.out.println("*****************************KATEGORİ EKLENDİ*********************************");
         Category child = new Child();
         Category middleEarth = new MiddleEarth();
         Category scienceFiction = new ScienceFiction();
         library.addCategories(child);
         library.addCategories(middleEarth);
         library.addCategories(scienceFiction);
-        System.out.println("**************************************************************");
 
         //Okuyucular için instancelar oluşturduk ve kütüphanemize ekledik
+        System.out.println("*****************************OKUYUCU EKLENDİ*********************************");
         Reader mustafa = new Reader(1, "mustafa", 10);
         Reader hilal = new Reader(2, "hilal", 25);
         Reader berkay = new Reader(3, "berkay", 650);
-        library.addReader(mustafa);
-        library.addReader(hilal);
-        library.addReader(berkay);
-        System.out.println("**************************************************************");
+        librarian.addReader(mustafa);
+        librarian.addReader(hilal);
+        librarian.addReader(berkay);
 
         //Kitaplar için instancelar oluşturduk ve kütüphanemize ekledik
+        System.out.println("*****************************KİTAP EKLENDİ*********************************");
         Book yuzuk = new Book(1, tolkien, "Yüzüklerin Efendisi", middleEarth, 2, "OOP", LocalDate.of(2022, 6, 25));
         Book silmarillion = new Book(2, tolkien, "Silmarillion", middleEarth, 3, "Singleton", LocalDate.of(2023, 8, 29));
         Book hobbit = new Book(3, tolkien, "Hobbit", middleEarth, 1, "Observer", LocalDate.of(2019, 4, 21));
@@ -61,42 +65,40 @@ public class Main {
         library.addBook(harry2, ejderha);
         library.addBook(vakif);
         library.addBook(sonsuz);
-        System.out.println("**************************************************************");
-
         //id bilgisine göre kitap seçtik.
+        System.out.println("*****************************IDYE GÖRE KİTAP SEÇİLDİ*********************************");
         System.out.println(library.getBooks().get(100));
         System.out.println(library.getBooks().get(1004));
-        System.out.println("**************************************************************");
 
         //okuyucu kütüphanede boşta bulunan bir kitabı ödünç alabilir ve aldığı zaman okuyucudan kitap tutarı kadar ücret kesilir. aynı anda en fazla 5 ödünç kitaba sahip olunabilir.
-        berkay.borrowBook(hobbit, harry, vakif, silmarillion, sonsuz, harry2, karga);
-        hilal.borrowBook(hobbit);
+        System.out.println("*****************************KİTAP(LAR) ÖDÜNÇ ALINDI*********************************");
+        librarian.lendBook(berkay, hobbit, harry, vakif, silmarillion, sonsuz, harry2, karga);
+        librarian.lendBook(hilal, hobbit);
         System.out.println(library.getReaders());
-        System.out.println("**************************************************************");
 
         //okuyucu daha önce ödünç aldığı kitabı teslim edebilir ve ettiği zaman ödünç alırken kesilen ücret iade edilir
-        berkay.returnBook(hobbit);
-        hilal.returnBook(hobbit);
-        System.out.println("**************************************************************");
+        System.out.println("*****************************ÖDÜNÇ ALINAN KİTAPLAR İADE EDİLDİ*********************************");
+        librarian.takeBackBook(berkay, hobbit);
+        librarian.takeBackBook(hilal, hobbit);
 
         //seçilen IDdeki kitabın bilgilerini güncelledik ama ödünç alınmış durumdaysa güncelleyemeyiz
+        System.out.println("*****************************SEÇİLEN IDDEKİ KİTAP BİLGİLERİ GÜNCELLENDİ*********************************");
         library.updateBook(1, "Yüzüklerin Efendisi Yüzük Kardeşliği", tolkien, middleEarth, 7, "OOP", LocalDate.of(2022, 6, 25));
         library.updateBook(3, "Hobbit 2", tolkien, middleEarth, 7, "OOP", LocalDate.of(2022, 6, 25));
-        System.out.println("**************************************************************");
 
         //sistemdeki bir kitabı sildik ama ödünç alınmış durumdaysa silemeyiz
+        System.out.println("*****************************SEÇİLEN KİTAP SİLİNDİ*********************************");
         library.removeBook(hobbit);
         library.removeBook(vakif);
-        library.removeBook(vakif);
-        System.out.println("**************************************************************");
+        library.removeBook(karga);
 
         //seçilen kategorideki tüm kitapları sildik
+        System.out.println("*****************************SEÇİLEN KATEGORİDEKİ TÜM KİTAPLAR SİLİNDİ*********************************");
         library.removeBook(child);
-        System.out.println("**************************************************************");
 
         //seçilen yazarın tüm kitaplarını sildik
+        System.out.println("*****************************SEÇİLEN YAZARIN TÜM KİTAPLARI SİLİNDİ*********************************");
         library.removeBook(tolkien);
-        System.out.println("**************************************************************");
 
 
     }

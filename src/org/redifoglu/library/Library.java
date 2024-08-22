@@ -3,6 +3,7 @@ package org.redifoglu.library;
 import org.redifoglu.category.Category;
 import org.redifoglu.interfaces.Observer;
 import org.redifoglu.person.Author;
+import org.redifoglu.person.Person;
 import org.redifoglu.person.Reader;
 
 import java.time.LocalDate;
@@ -53,26 +54,7 @@ public class Library {
         return readers;
     }
 
-    //    public void addBook(Book book) {
-//        if (books.containsKey(book.getBookID())) {
-//            System.out.println("Bu ID daha önce başka bir kitapta kullanılmış.".toUpperCase());
-//            return;
-//        }
-//        if (books.values().stream().anyMatch(b -> b.getName().equalsIgnoreCase(book.getName()) && b.getEdition().equalsIgnoreCase(book.getEdition()))) {
-//            System.out.println("Bu kitap zaten mevcut.".toUpperCase());
-//            return;
-//        }
-//
-//        int count = book.getQuantity();
-//        if (count <= 0) {
-//            System.out.println("En az 1 adet kitap eklemelisiniz.");
-//            return;
-//        }
-//        books.put(book.getBookID(), book);
-//        book.setQuantity(count);
-//        notifyObservers();
-//        System.out.println(book.getName() + " kütüphaneye eklendi.");
-//    }
+
     public void addBook(Book... booksToAdd) {
         for (Book book : booksToAdd) {
             if (books.values().stream().anyMatch(b -> b.getName().equalsIgnoreCase(book.getName()) && b.getEdition().equalsIgnoreCase(book.getEdition()))) {
@@ -106,7 +88,6 @@ public class Library {
                 break;
             }
         }
-
         if (bookToUpdate != null) {
             if (isBookBorrowed) {
                 System.out.println("Bu kitap şuanda ödünç alınmış durumda olduğu için güncellenemez.");
@@ -190,6 +171,14 @@ public class Library {
         }
     }
 
+    //    public void addReader(Reader reader) {
+//        if (readers.containsKey(reader)) {
+//            System.out.println(reader.getName() + " zaten kütüphanede kayıtlı bir okuyucu.");
+//        } else {
+//            readers.put(reader, new HashSet<>());
+//            System.out.println(reader.getName() + " kütüphaneye kayıt oldu.");
+//        }
+//    }
     public void addReader(Reader reader) {
         if (readers.containsKey(reader)) {
             System.out.println(reader.getName() + " zaten kütüphanede kayıtlı bir okuyucu.");
