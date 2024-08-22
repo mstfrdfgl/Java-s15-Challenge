@@ -25,13 +25,6 @@ public class Book {
         this.quantity = quantity;
         this.edition = edition;
         this.dateOfPurchase = dateOfPurchase;
-
-//        this.author.getBooks().add(this);//kitap nesnesi oluşturulduğunda otomatik olarak seçilen yazarın kitaplarına eklenir.
-//        Library library = Library.getInstance();
-//        library.addBook(this);
-        //Aynı şekilde kitap nesnesi oluşturulduğunda otomatik olarak kitap kütüphaneye eklenir.
-//        category.addBook(this);
-
     }
 
 
@@ -112,21 +105,6 @@ public class Book {
             return "Bu kitap kütüphanemizde bulunmamakta.";
         }
     }
-
-
-//    @Override
-//    public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
-//        Book book = (Book) o;
-//        return Objects.equals(name, book.name);
-//    }
-
-
-//    @Override
-//    public int hashCode() {
-//        return Objects.hashCode(name);
-//    }
 
     @Override
     public boolean equals(Object o) {

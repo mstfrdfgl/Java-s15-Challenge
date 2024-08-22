@@ -30,42 +30,6 @@ public class Librarian extends Person {
     }
 
 
-//    public void lendBook(Reader reader, Book... books) {
-//        for (Book book : books) {
-//            BorrowedBook borrowedBook = new BorrowedBook(book.getName(), book.getAuthor(), book.getCategory(), book.getEdition());
-//            if (reader.getBorrowedBooks().size() >= 5) {
-//                System.out.println("Aynı anda en fazla 5 adet kitap ödünç alabilirsiniz. Daha fazla kitap almak için lütfen elinizdeki kitapları tekrar kütüphanemize getirin.");
-//                return;
-//            }
-//            if (reader.getBorrowedBooks().contains(borrowedBook)) {
-//                System.out.println(book.getName() + " kitabını zaten ödünç almışsınız. Bir kez daha alamazsınız.");
-//                continue;
-//            }
-//            if (book.getQuantity() == 0) {
-//                System.out.println(reader.getName() + "'nın ödünç almak istediği kitap kütüphanemizde kalmadı.");
-//                continue;
-//            }
-//            if (!Library.getInstance().getBooks().containsKey(book.getBookID())) {
-//                System.out.println("Ödünç almak istediğiniz kitap kütüphanemizde bulunmamaktadır.");
-//                continue;
-//            }
-//            if (reader.getBalance() < book.getPrice()) {
-//                System.out.println("Yetersiz bakiye. " + reader.getName() + " maalesef ₺" + String.format("%.2f", book.getPrice() - reader.getBalance()) + " tutarında eksiğin var.");
-//                continue;
-//            }
-//            //tüm koşullar sağlanırsa kitap ödünç alma işlemi başlar
-//            reader.getBorrowedBooks().add(borrowedBook);
-//            book.setQuantity(book.getQuantity() - 1);
-//            reader.setBalance(reader.getBalance() - book.getPrice());
-//            ActiveInvoice activeInvoice = new ActiveInvoice(reader, book);
-//            reader.getActiveInvoices().add(activeInvoice);
-//            if (reader.getBorrowedBooks() == null) {//eğer ilk defa kitap ödünç alıyorsa library readers mapinde yeni bir value(set) oluşturulur.
-//                Library.getInstance().getReaders().put(reader, new HashSet<>());
-//            }
-//            Library.getInstance().getReaders().get(reader).add(borrowedBook);
-//            System.out.println(reader.getName() + ", " + book.getName() + " Kitabını ₺" + book.getPrice() + " karşılığında ödünç aldı, yeni miktar " + book.getQuantity() + ". Yeni bakiye ₺" + String.format("%.2f", reader.getBalance()));
-//        }
-//    }
     public void lendBook(Reader reader, Book... books) {
         for (Book book : books) {
             BorrowedBook borrowedBook = new BorrowedBook(book.getName(), book.getAuthor(), book.getCategory(), book.getEdition());

@@ -6,7 +6,6 @@ import org.redifoglu.category.ScienceFiction;
 import org.redifoglu.library.Book;
 import org.redifoglu.library.Library;
 import org.redifoglu.person.Librarian;
-import org.redifoglu.person.Person;
 import org.redifoglu.person.Reader;
 
 import java.time.LocalDate;
@@ -39,7 +38,7 @@ public class Main {
 
         //Okuyucular için instancelar oluşturduk ve kütüphanemize ekledik
         System.out.println("*****************************OKUYUCU EKLENDİ*********************************");
-        Reader mustafa = new Reader(1, "mustafa", 10);
+        Reader mustafa = new Reader(1, "mustafa", 70);
         Reader hilal = new Reader(2, "hilal", 25);
         Reader berkay = new Reader(3, "berkay", 650);
         librarian.addReader(mustafa);
@@ -72,13 +71,14 @@ public class Main {
 
         //okuyucu kütüphanede boşta bulunan bir kitabı ödünç alabilir ve aldığı zaman okuyucudan kitap tutarı kadar ücret kesilir. aynı anda en fazla 5 ödünç kitaba sahip olunabilir.
         System.out.println("*****************************KİTAP(LAR) ÖDÜNÇ ALINDI*********************************");
-        librarian.lendBook(berkay, hobbit, harry, vakif, silmarillion, sonsuz, harry2, karga);
+        librarian.lendBook(berkay, hobbit, harry, vakif, silmarillion, sonsuz, harry2);
         librarian.lendBook(hilal, hobbit);
+        librarian.lendBook(mustafa, ejderha);
         System.out.println(library.getReaders());
 
         //okuyucu daha önce ödünç aldığı kitabı teslim edebilir ve ettiği zaman ödünç alırken kesilen ücret iade edilir
         System.out.println("*****************************ÖDÜNÇ ALINAN KİTAPLAR İADE EDİLDİ*********************************");
-        librarian.takeBackBook(berkay, hobbit);
+        librarian.takeBackBook(berkay, hobbit, vakif);
         librarian.takeBackBook(hilal, hobbit);
 
         //seçilen IDdeki kitabın bilgilerini güncelledik ama ödünç alınmış durumdaysa güncelleyemeyiz
@@ -99,7 +99,5 @@ public class Main {
         //seçilen yazarın tüm kitaplarını sildik
         System.out.println("*****************************SEÇİLEN YAZARIN TÜM KİTAPLARI SİLİNDİ*********************************");
         library.removeBook(tolkien);
-
-
     }
 }

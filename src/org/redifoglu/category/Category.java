@@ -13,13 +13,12 @@ public abstract class Category implements Observer {
     private final double price;
     private Map<String, Set<Book>> books = new LinkedHashMap<>();
 
-    public Category(int categoryID,double price, String name) {
-        this.categoryID=categoryID;
+    public Category(int categoryID, double price, String name) {
+        this.categoryID = categoryID;
         this.price = price;
         this.name = name;
         Library.getInstance().addObservers(this);
         books.put(name, new LinkedHashSet<>());
-//        System.out.println(name + " Kategorisi eklendi.");
     }
 
     public void update() {
@@ -51,22 +50,6 @@ public abstract class Category implements Observer {
     public void removeBook(Book book) {
         books.get(name).remove(book);
     }
-
-//    public void addBook(Book book) {
-//        Set<Book> books = this.books.get(name);
-//        for (Book existingBook : books) {
-//            if (existingBook.getName().equalsIgnoreCase(book.getName())) {
-//                return;
-//            }
-//            if (existingBook.getBookID() == book.getBookID()) {
-//                return;
-//            }
-//        }
-//        if (book.getQuantity() <= 0) {
-//            return;
-//        }
-//        books.add(book);
-//    }
 
     @Override
     public String toString() {

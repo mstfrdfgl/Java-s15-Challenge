@@ -15,7 +15,7 @@ public class Author extends Person implements Observer {
 
     public Author(int authorID, String name) {
         super(name);
-        this.authorID=authorID;
+        this.authorID = authorID;
         Library.getInstance().addObservers(this);
     }
 

@@ -3,7 +3,6 @@ package org.redifoglu.library;
 import org.redifoglu.category.Category;
 import org.redifoglu.interfaces.Observer;
 import org.redifoglu.person.Author;
-import org.redifoglu.person.Person;
 import org.redifoglu.person.Reader;
 
 import java.time.LocalDate;
@@ -54,7 +53,6 @@ public class Library {
         return readers;
     }
 
-
     public void addBook(Book... booksToAdd) {
         for (Book book : booksToAdd) {
             if (books.values().stream().anyMatch(b -> b.getName().equalsIgnoreCase(book.getName()) && b.getEdition().equalsIgnoreCase(book.getEdition()))) {
@@ -65,7 +63,6 @@ public class Library {
                 System.out.println("ID: " + book.getBookID() + " daha önce başka bir kitapta kullanılmış.".toUpperCase());
                 continue;
             }
-
             int count = book.getQuantity();
             if (count <= 0) {
                 System.out.println("Kitap: " + book.getName() + " için en az 1 adet kitap eklemelisiniz.");
@@ -78,9 +75,12 @@ public class Library {
         notifyObservers();
     }
 
-
     public void updateBook(int bookID, String newName, Author newAuthor, Category newCategory, int newQuantity, String newEdition, LocalDate newDateOfPurchase) {
         Book bookToUpdate = books.get(bookID);
+        if (bookToUpdate == null) {
+            System.out.println("Güncellenecek kitap bulunamadı");
+            return;
+        }
         boolean isBookBorrowed = false;
         for (Set<BorrowedBook> borrowedBooks : readers.values()) {
             if (borrowedBooks.contains(new BorrowedBook(bookToUpdate.getName(), bookToUpdate.getAuthor(), bookToUpdate.getCategory(), bookToUpdate.getEdition()))) {
@@ -88,26 +88,22 @@ public class Library {
                 break;
             }
         }
-        if (bookToUpdate != null) {
-            if (isBookBorrowed) {
-                System.out.println("Bu kitap şuanda ödünç alınmış durumda olduğu için güncellenemez.");
-            } else {
-                if (books.values().stream().filter(b -> b.getBookID() != bookID)
-                        .noneMatch(b -> b.getName().equalsIgnoreCase(newName) ||
-                                b.getEdition().equalsIgnoreCase(newEdition))) {
-                    bookToUpdate.setName(newName);
-                    bookToUpdate.setAuthor(newAuthor);
-                    bookToUpdate.setCategory(newCategory);
-                    bookToUpdate.setQuantity(newQuantity);
-                    bookToUpdate.setEdition(newEdition);
-                    bookToUpdate.setDateOfPurchase(newDateOfPurchase);
-                    System.out.println(bookID + " ID numarasına sahip kitap başarıyla güncellendi.");
-                } else {
-                    System.out.println("Güncellemek istediğiniz kitap zaten bulunuyor.");
-                }
-            }
+        if (isBookBorrowed) {
+            System.out.println("Bu kitap şuanda ödünç alınmış durumda olduğu için güncellenemez.");
         } else {
-            System.out.println("Güncellenecek kitap bulunamadı");
+            if (books.values().stream().filter(b -> b.getBookID() != bookID)
+                    .noneMatch(b -> b.getName().equalsIgnoreCase(newName) ||
+                            b.getEdition().equalsIgnoreCase(newEdition))) {
+                bookToUpdate.setName(newName);
+                bookToUpdate.setAuthor(newAuthor);
+                bookToUpdate.setCategory(newCategory);
+                bookToUpdate.setQuantity(newQuantity);
+                bookToUpdate.setEdition(newEdition);
+                bookToUpdate.setDateOfPurchase(newDateOfPurchase);
+                System.out.println(bookID + " ID numarasına sahip kitap başarıyla güncellendi.");
+            } else {
+                System.out.println("Güncellemek istediğiniz kitap zaten bulunuyor.");
+            }
         }
     }
 
@@ -130,6 +126,10 @@ public class Library {
     }
 
     public void removeBook(Book book) {
+        if (!books.containsValue(book)) {
+            System.out.println("Bu kitap zaten kütüphanemizde bulunmamakta.");
+            return;
+        }
         boolean isBookBorrowed = false;
         for (Set<BorrowedBook> borrowedBooks : readers.values()) {
             if (borrowedBooks.contains(new BorrowedBook(book.getName(), book.getAuthor(), book.getCategory(), book.getEdition()))) {
@@ -137,18 +137,13 @@ public class Library {
                 break;
             }
         }
-        if (!books.containsValue(book)) {
-            System.out.println("Bu kitap zaten kütüphanemizde bulunmamakta.");
+        if (isBookBorrowed) {
+            System.out.println("Bu kitap şuanda ödünç alınmış durumda olduğu için silinemez.");
         } else {
-            if (isBookBorrowed) {
-                System.out.println("Bu kitap şuanda ödünç alınmış durumda olduğu için silinemez.");
-            } else {
-                books.remove(book.getBookID());
-                notifyObservers();
-                System.out.println(book.getName() + " kütüphaneden kaldırıldı.");
-            }
+            books.remove(book.getBookID());
+            notifyObservers();
+            System.out.println(book.getName() + " kütüphaneden kaldırıldı.");
         }
-
     }
 
     public void removeBook(Category category) {
@@ -168,23 +163,6 @@ public class Library {
         }
         for (Book book : booksToRemove) {
             removeBook(book);
-        }
-    }
-
-    //    public void addReader(Reader reader) {
-//        if (readers.containsKey(reader)) {
-//            System.out.println(reader.getName() + " zaten kütüphanede kayıtlı bir okuyucu.");
-//        } else {
-//            readers.put(reader, new HashSet<>());
-//            System.out.println(reader.getName() + " kütüphaneye kayıt oldu.");
-//        }
-//    }
-    public void addReader(Reader reader) {
-        if (readers.containsKey(reader)) {
-            System.out.println(reader.getName() + " zaten kütüphanede kayıtlı bir okuyucu.");
-        } else {
-            readers.put(reader, new HashSet<>());
-            System.out.println(reader.getName() + " kütüphaneye kayıt oldu.");
         }
     }
 

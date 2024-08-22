@@ -43,12 +43,7 @@ public class BorrowedBook {
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder();
-//        sb.append("BorrowedBook Details:\n");
-        sb.append(name).append("");
-//        sb.append("Author: ").append(author.getName()).append("\n");
-//        sb.append("Category: ").append(category.getName()).append("\n");
-//        sb.append("Edition: ").append(edition).append("\n");
-//        sb.append("Price: $").append(String.format("%.2f", price)).append("\n");
+        sb.append(name);
         return sb.toString();
     }
 
