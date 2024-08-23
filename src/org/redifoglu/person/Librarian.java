@@ -1,7 +1,7 @@
 package org.redifoglu.person;
 
-import org.redifoglu.library.Bills.ActiveInvoice;
-import org.redifoglu.library.Bills.PaidInvoice;
+import org.redifoglu.Invoice.ActiveInvoice;
+import org.redifoglu.Invoice.PaidInvoice;
 import org.redifoglu.library.Book;
 import org.redifoglu.library.BorrowedBook;
 import org.redifoglu.library.Library;
@@ -16,10 +16,6 @@ public class Librarian extends Person {
         this.librarianID = librarianID;
     }
 
-    public Librarian(String name) {
-        super(name);
-    }
-
     public int getLibrarianID() {
         return librarianID;
     }
@@ -28,7 +24,6 @@ public class Librarian extends Person {
     public String getName() {
         return super.getName();
     }
-
 
     public void lendBook(Reader reader, Book... books) {
         for (Book book : books) {

@@ -1,4 +1,4 @@
-package org.redifoglu.library.Bills;
+package org.redifoglu.Invoice;
 
 import org.redifoglu.library.Book;
 import org.redifoglu.person.Reader;

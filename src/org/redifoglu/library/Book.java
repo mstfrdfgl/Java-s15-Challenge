@@ -27,7 +27,6 @@ public class Book {
         this.dateOfPurchase = dateOfPurchase;
     }
 
-
     public Author getAuthor() {
         return author;
     }

@@ -1,7 +1,7 @@
 package org.redifoglu.person;
 
-import org.redifoglu.library.Bills.ActiveInvoice;
-import org.redifoglu.library.Bills.PaidInvoice;
+import org.redifoglu.Invoice.ActiveInvoice;
+import org.redifoglu.Invoice.PaidInvoice;
 import org.redifoglu.library.BorrowedBook;
 
 import java.util.*;

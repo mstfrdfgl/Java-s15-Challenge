@@ -47,10 +47,6 @@ public abstract class Category implements Observer {
         return books.get(name);
     }
 
-    public void removeBook(Book book) {
-        books.get(name).remove(book);
-    }
-
     @Override
     public String toString() {
         Set<Book> books = this.books.get(name);
@@ -64,7 +60,6 @@ public abstract class Category implements Observer {
         }
         return sb.toString();
     }
-
 
     @Override
     public boolean equals(Object o) {

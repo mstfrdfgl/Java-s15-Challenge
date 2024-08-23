@@ -15,7 +15,7 @@ public class Main {
         //singleton patterne göre bir sınıftan tek bir instance oluşturduk.
         Library library = Library.getInstance();
         Librarian librarian = new Librarian(1, "Mrs.Librarian");
-        System.out.println(librarian);
+
         //Author sınıfına yeni yazarlar ekledik
         System.out.println("*****************************YAZAR EKLENDİ*********************************");
         Author rowling = new Author(1, "J.K. Rowling");
@@ -59,7 +59,7 @@ public class Main {
         Book kilic = new Book(1002, martin, "Kılıçların Fırtınası", middleEarth, 9, "Javascript", LocalDate.of(2020, 9, 6));
         Book karga = new Book(1003, martin, "Kargaların Ziyafeti", child, 14, "Html", LocalDate.of(2021, 1, 1));
         Book ejderha = new Book(1004, martin, "Ejderhalarla Dans", scienceFiction, 6, "Css", LocalDate.of(2024, 4, 4));
-        library.addBook(yuzuk, silmarillion, hobbit, yuzuk);
+        library.addBook(yuzuk, silmarillion, hobbit);
         library.addBook(harry, taht, kral, kilic, karga);
         library.addBook(harry2, ejderha);
         library.addBook(vakif);

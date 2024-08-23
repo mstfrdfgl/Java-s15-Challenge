@@ -36,7 +36,6 @@ public class Author extends Person implements Observer {
         return books;
     }
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -62,6 +61,5 @@ public class Author extends Person implements Observer {
         }
         return sb.toString();
     }
-
 
 }

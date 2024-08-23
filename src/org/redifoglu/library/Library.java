@@ -53,6 +53,14 @@ public class Library {
         return readers;
     }
 
+    public Map<Integer, Author> getAuthors() {
+        return authors;
+    }
+
+    public Map<Integer, Category> getCategories() {
+        return categories;
+    }
+
     public void addBook(Book... booksToAdd) {
         for (Book book : booksToAdd) {
             if (books.values().stream().anyMatch(b -> b.getName().equalsIgnoreCase(book.getName()) && b.getEdition().equalsIgnoreCase(book.getEdition()))) {
